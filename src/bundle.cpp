@@ -485,7 +485,6 @@ bool ZBundle::ModifyBundleInfo(const string& strBundleId, const string& strBundl
 	if (!strBundleVersion.empty()) {
 		string strOldBundleVersion = jvInfo["CFBundleVersion"];
 		jvInfo["CFBundleVersion"] = strBundleVersion;
-		jvInfo["CFBundleShortVersionString"] = strBundleVersion;
 		ZLog::PrintV(">>> BundleVersion: %s -> %s\n", strOldBundleVersion.c_str(), strBundleVersion.c_str());
 	}
 
