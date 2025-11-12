@@ -23,7 +23,7 @@ brew install ideviceinstaller
 
 ```bash
 sudo apt-get install -y git g++ pkg-config libssl-dev libminizip-dev
-git clone https://github.com/zhlynn/zsign.git
+git clone https://github.com/Scott96003/zsign
 cd zsign/build/linux
 make clean && make
 ```
