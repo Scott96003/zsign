@@ -7,7 +7,7 @@ If this tool helps you, please don't forget to <font color=#FF0000 size=5>🌟**
 
 ```bash
 brew install pkg-config openssl minizip
-git clone https://github.com/zhlynn/zsign.git
+git clone https://github.com/Scott96003/zsign.git
 cd zsign/build/macos
 make clean && make
 ```
