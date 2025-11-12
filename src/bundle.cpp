@@ -428,7 +428,7 @@ bool ZBundle::ModifyPluginsBundleId(const string& strOldBundleId, const string& 
 	return true;
 }
 
-bool ZBundle::ModifyBundleInfo(const string& strBundleId, const string& strBundleVersion, const string& strDisplayName)
+bool ZBundle::ModifyBundleInfo(const string& strBundleId, const string& strBundleVersion, const string& strShortBundleVersion, const string& strDisplayName)
 {
 	jvalue jvInfo;
 	if (!jvInfo.read_plist_from_file("%s/Info.plist", m_strAppFolder.c_str())) {
@@ -489,6 +489,12 @@ bool ZBundle::ModifyBundleInfo(const string& strBundleId, const string& strBundl
 		ZLog::PrintV(">>> BundleVersion: %s -> %s\n", strOldBundleVersion.c_str(), strBundleVersion.c_str());
 	}
 
+	if (!strShortBundleVersion.empty()) {
+		string strOldShortBundleVersion = jvInfo["CFBundleShortVersionString"];
+		jvInfo["CFBundleShortVersionString"] = strShortBundleVersion;
+		ZLog::PrintV(">>> ShortBundleVersion: %s -> %s\n", strOldShortBundleVersion.c_str(), strShortBundleVersion.c_str());
+	}
+
 	jvInfo.style_write_plist_to_file("%s/Info.plist", m_strAppFolder.c_str());
 	return true;
 }
@@ -497,6 +503,7 @@ bool ZBundle::SignFolder(ZSignAsset* pSignAsset,
 							const string& strFolder,
 							const string& strBundleId,
 							const string& strBundleVersion,
+							const string& strShortBundleVersion,
 							const string& strDisplayName,
 							const vector<string>& arrInjectDylibs,
 							bool bForce,
@@ -517,7 +524,7 @@ bool ZBundle::SignFolder(ZSignAsset* pSignAsset,
 
 	if (!strBundleId.empty() || !strDisplayName.empty() || !strBundleVersion.empty()) {
 		m_bForceSign = true;
-		if (!ModifyBundleInfo(strBundleId, strBundleVersion, strDisplayName)) {
+		if (!ModifyBundleInfo(strBundleId, strBundleVersion, strShortBundleVersion, strDisplayName)) {
 			return false;
 		}
 	}

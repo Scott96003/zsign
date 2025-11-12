@@ -14,6 +14,7 @@ public:
 					const string& strFolder,
 					const string& strBundleId,
 					const string& strBundleVersion,
+					const string& strShortBundleVersion,
 					const string& strDisplayName,
 					const vector<string>& arrDylibFiles,
 					bool bForce,
@@ -25,7 +26,7 @@ private:
 	void GetNodeChangedFiles(jvalue& jvNode);
 	void GetChangedFiles(jvalue& jvNode, vector<string>& arrChangedFiles);
 	bool ModifyPluginsBundleId(const string& strOldBundleId, const string& strNewBundleId);
-	bool ModifyBundleInfo(const string& strBundleId, const string& strBundleVersion, const string& strDisplayName);
+	bool ModifyBundleInfo(const string& strBundleId, const string& strBundleVersion, const string& strShortBundleVersion, const string& strDisplayName);
 
 private:
 	bool FindAppFolder(const string& strFolder, string& strAppFolder);

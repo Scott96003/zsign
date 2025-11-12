@@ -23,6 +23,7 @@ const struct option options[] = {
 	{"bundle_id", required_argument, NULL, 'b'},
 	{"bundle_name", required_argument, NULL, 'n'},
 	{"bundle_version", required_argument, NULL, 'r'},
+	{"short bundle_version", required_argument, NULL, 's'},
 	{"entitlements", required_argument, NULL, 'e'},
 	{"output", required_argument, NULL, 'o'},
 	{"zip_level", required_argument, NULL, 'z'},
@@ -53,6 +54,7 @@ int usage()
 	ZLog::Print("-b, --bundle_id\t\tNew bundle id to change.\n");
 	ZLog::Print("-n, --bundle_name\tNew bundle name to change.\n");
 	ZLog::Print("-r, --bundle_version\tNew bundle version to change.\n");
+	ZLog::Print("-s, --short bundle_version\tNew short bundle version to change.\n");
 	ZLog::Print("-e, --entitlements\tNew entitlements to change.\n");
 	ZLog::Print("-z, --zip_level\t\tCompressed level when output the ipa file. (0-9)\n");
 	ZLog::Print("-l, --dylib\t\tPath to inject dylib file. Use -l multiple time to inject multiple dylib files at once.\n");
@@ -87,6 +89,7 @@ int main(int argc, char* argv[])
 	string strPassword;
 	string strBundleId;
 	string strBundleVersion;
+	string strShortBundleVersion;
 	string strOutputFile;
 	string strDisplayName;
 	string strEntitleFile;
@@ -95,7 +98,7 @@ int main(int argc, char* argv[])
 
 	int opt = 0;
 	int argslot = -1;
-	while (-1 != (opt = getopt_long(argc, argv, "dfva2hiqwCc:k:m:o:p:e:b:n:z:l:t:r:",
+	while (-1 != (opt = getopt_long(argc, argv, "dfva2hiqwCc:k:m:o:p:e:b:n:z:l:t:r:s:",
 		options, &argslot))) {
 		switch (opt) {
 		case 'd':
@@ -124,6 +127,9 @@ int main(int argc, char* argv[])
 			break;
 		case 'r':
 			strBundleVersion = optarg;
+			break;
+		case 's':
+			strShortBundleVersion = optarg;
 			break;
 		case 'n':
 			strDisplayName = optarg;
@@ -276,7 +282,7 @@ int main(int argc, char* argv[])
 	//sign
 	atimer.Reset();
 	ZBundle bundle;
-	bool bRet = bundle.SignFolder(&zsa, strFolder, strBundleId, strBundleVersion, strDisplayName, arrDylibFiles, bForce, bWeakInject, bEnableCache);
+	bool bRet = bundle.SignFolder(&zsa, strFolder, strBundleId, strBundleVersion, strShortBundleVersion, strDisplayName, arrDylibFiles, bForce, bWeakInject, bEnableCache);
 	atimer.PrintResult(bRet, ">>> Signed %s!", bRet ? "OK" : "Failed");
 
 	//archive
